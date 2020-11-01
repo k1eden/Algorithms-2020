@@ -2,6 +2,8 @@ package lesson7;
 
 import kotlin.NotImplementedError;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.max;
@@ -63,8 +65,40 @@ public class JavaDynamicTasks {
      * В примере ответами являются 2, 8, 9, 12 или 2, 5, 9, 12 -- выбираем первую из них.
      */
     public static List<Integer> longestIncreasingSubSequence(List<Integer> list) {
-        throw new NotImplementedError();
-    }
+        int[] maxL = new int[list.size()];
+        int[] prev = new int[list.size()];
+        int pos = 0;
+        int len = 0;
+        List<Integer> res = new ArrayList<>();
+
+        for (int j = 0; j < list.size(); j++) {
+            prev[j] = -1;
+            maxL[j] = 1;
+
+            for (int i = 0; i < j; i++) {
+                if (list.get(i) < list.get(j) && maxL[i] + 1 > maxL[j]) {
+                    maxL[j] = maxL[i] + 1;
+                    prev[j] = i;
+                }
+            }
+        }
+
+        for (int j = 0; j < list.size(); j++) {
+            if (maxL[j] > len) {
+                pos = j;
+                len = maxL[j];
+            }
+        }
+
+        if (list.isEmpty()) return new ArrayList<>();
+
+        while (pos != -1) {
+            res.add(0, list.get(pos));
+            pos = prev[pos];
+        }
+
+        return res;
+    } // Трудоемкость: O(n^2), где n - длина листа
 
     /**
      * Самый короткий маршрут на прямоугольном поле.
