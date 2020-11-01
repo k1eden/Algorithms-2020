@@ -4,6 +4,8 @@ import kotlin.NotImplementedError;
 
 import java.util.List;
 
+import static java.lang.Math.max;
+
 @SuppressWarnings("unused")
 public class JavaDynamicTasks {
     /**
@@ -19,8 +21,34 @@ public class JavaDynamicTasks {
      * При сравнении подстрок, регистр символов *имеет* значение.
      */
     public static String longestCommonSubSequence(String first, String second) {
-        throw new NotImplementedError();
-    }
+        int mL = second.toLowerCase().length();
+        int nL = first.toLowerCase().length();
+        StringBuilder res = new StringBuilder();
+        int[][] nums = new int[nL+1][mL+1];
+        String ans;
+
+        for (int i = 1; i <= second.length(); i++) {
+            for (int j = 1; j <= first.length(); j++){
+                if (first.charAt(j - 1) == (second.charAt(i - 1)))
+                    nums[j][i] = 1 + nums[j - 1][i - 1];
+                else nums[j][i] = max(nums[j - 1][i], nums[j][i - 1]);
+            }
+        }
+
+        while (mL != 0 && nL != 0) {
+            if (first.charAt(nL - 1)==(second.charAt(mL - 1))) {
+                res.append(first.charAt(nL-1));
+                nL--;
+                mL--;
+            }
+            else if (nums[nL][mL - 1] >= nums[nL][mL]) mL--;
+            else nL--;
+        }
+
+        ans = res.reverse().toString();
+
+        return ans;
+    } //Трудоемкость: o(mL*nL), где mL и nL длины последовательностей
 
     /**
      * Наибольшая возрастающая подпоследовательность

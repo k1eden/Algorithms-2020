@@ -2,6 +2,12 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
 @SuppressWarnings("unused")
 public class JavaTasks {
     /**
@@ -98,8 +104,24 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortTemperatures(String inputName, String outputName) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inputName));
+        List<Double> listOfTemp = new ArrayList<>();
+        Scanner scan = new Scanner(new File(inputName));
+
+        while (reader.readLine() != null) {
+            double temp = Double.parseDouble(scan.next());
+
+            if (temp > 500.0 || temp < -273.0) throw new IllegalArgumentException();
+            listOfTemp.add(temp);
+        }
+
+        Collections.sort(listOfTemp);
+
+        try (FileWriter writer = new FileWriter(outputName)) {
+            for (Double temp : listOfTemp) writer.write(temp.toString() + "\n");
+        }
+        //Трудоемкость: O(n(log(n)))
     }
 
     /**
@@ -150,6 +172,23 @@ public class JavaTasks {
      * Результат: second = [1 3 4 9 9 13 15 20 23 28]
      */
     static <T extends Comparable<T>> void mergeArrays(T[] first, T[] second) {
-        throw new NotImplementedError();
+        int index = 0;
+        int index1 = first.length;
+
+        for (int i = 0; i < second.length; i++) {
+
+            if (index1 == second.length
+                    || (index < first.length && first[index].compareTo(second[index1]) <= 0))
+            {
+                second[i] = first[index];
+                index++;
+            }
+
+            else {
+                second[i] = second[index1];
+                index1++;
+            }
+        }
+        // Трудоемкость: O(n)
     }
 }

@@ -98,7 +98,7 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      */
     static public String longestCommonSubstring(String firs, String second) {
-        //Трудоемкость: O(n^2)
+        //Трудоемкость: O(n^3)
 
         int max = Integer.MIN_VALUE;
         String string = "";
@@ -130,7 +130,33 @@ public class JavaAlgorithms {
      * Справка: простым считается число, которое делится нацело только на 1 и на себя.
      * Единица простым числом не считается.
      */
+
+    private static boolean isSimple(int n) {
+        if (n == 2) return false;
+        if (n < 2) return true;
+        if (n % 2 == 0) return false;
+
+        for (int i = 3; i <= Math.sqrt(n); i += 2) {
+            if (n % i == 0) return false;
+        }
+
+        return true;
+    } //Трудоемкость: O(sqrt(N))
+
     static public int calcPrimesNumber(int limit) {
-        throw new NotImplementedError();
-    }
+        int count = 1;
+
+        if (limit >= 4) {
+            for (int i = 3; i <= limit; i += 2) {
+                if (isSimple(i)) count++;
+            }
+        }
+
+        if (limit <= 3) {
+            if (limit <= 0) return 0;
+            return limit - 1;
+        }
+
+        return count;
+    } //Трудоемкость: 0.5*O(N*sqrt(N))
 }
