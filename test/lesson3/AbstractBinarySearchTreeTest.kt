@@ -200,11 +200,28 @@ abstract class AbstractBinarySearchTreeTest {
                     "BinarySearchTreeIterator doesn't traverse the tree correctly."
                 )
             }
-            assertFailsWith<IllegalStateException>("Something was supposedly returned after the elements ended") {
+            assertFailsWith<NoSuchElementException>("Something was supposedly returned after the elements ended") {
                 binaryIter.next()
             }
             println("All clear!")
         }
+
+        val binarySet = create();
+        val emptyIterator = binarySet.iterator()
+        assertFalse(emptyIterator.hasNext())                                 // пустое дерево
+        val list = mutableListOf<Int>()
+        list.add(2)
+        list.add(7)
+        list.add(5)
+        list.add(6)
+        for (element in list) {
+            binarySet += element
+        }
+        val iterator = binarySet.iterator()
+        for (element in 1 until binarySet.size)
+            iterator.next()
+        assertTrue(iterator.hasNext())                                       // просто проходка
+
     }
 
     protected fun doIteratorRemoveTest() {
