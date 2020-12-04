@@ -1,8 +1,11 @@
 package lesson6;
 
 import kotlin.NotImplementedError;
+import lesson6.impl.GraphBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("unused")
@@ -66,8 +69,32 @@ public class JavaGraphTasks {
      * J ------------ K
      */
     public static Graph minimumSpanningTree(Graph graph) {
-        throw new NotImplementedError();
-    }
+        HashMap<Graph.Vertex, Integer> helper = new HashMap<>();
+        GraphBuilder resGBuilder = new GraphBuilder();
+        int counter4map = 0;
+
+        for (Graph.Vertex vert : graph.getVertices()) {
+            helper.put(resGBuilder.addVertex(vert.getName()), counter4map);
+            counter4map++;
+        }
+
+        for (Graph.Edge e : graph.getEdges()) {
+            Graph.Vertex begin = e.getBegin();
+            Graph.Vertex end = e.getEnd();
+
+            if (!helper.get(begin).equals(helper.get(end))) {
+                int first = helper.get(begin);
+                int second = helper.get(end);
+
+                resGBuilder.addConnection(begin, end, 0);
+
+                for (Map.Entry<Graph.Vertex, Integer> ent : helper.entrySet())
+                    if (ent.getValue().equals(first)) ent.setValue(second);
+            } else break;
+        }
+       Graph result = resGBuilder.build();
+        return result;
+    } // Трудоемкость = O(v*e), v - кол-во вершин, e - кол-во ребер
 
     /**
      * Максимальное независимое множество вершин в графе без циклов.
