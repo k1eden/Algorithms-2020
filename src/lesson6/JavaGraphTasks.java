@@ -3,10 +3,7 @@ package lesson6;
 import kotlin.NotImplementedError;
 import lesson6.impl.GraphBuilder;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class JavaGraphTasks {
@@ -147,8 +144,38 @@ public class JavaGraphTasks {
      * Ответ: A, E, J, K, D, C, H, G, B, F, I
      */
     public static Path longestSimplePath(Graph graph) {
-        throw new NotImplementedError();
-    }
+        Set<Graph.Vertex> setOfVertices = graph.getVertices();
+        Path res = new Path();
+        LinkedList<Path> paths = new LinkedList<>();
+        int pathLen = 0;
+
+
+        if (setOfVertices.isEmpty()) return res;
+
+        for (Graph.Vertex vertex : setOfVertices)
+            paths.add(new Path(vertex));
+
+        while (!paths.isEmpty()) {
+            Path curPath = paths.remove();
+
+            if (pathLen < curPath.getLength()) {
+                res = curPath;
+                pathLen = res.getLength();
+
+                if (setOfVertices.size() == res.getLength()) break;
+            }
+
+            List<Graph.Vertex> listOfVertices = curPath.getVertices();
+
+            for
+            (Graph.Vertex neigh : graph.getNeighbors(listOfVertices.get(listOfVertices.size() - 1)))
+                if (!curPath.contains(neigh)) {
+                    Path newPath = new Path(curPath, graph, neigh);
+                    paths.add(newPath);
+                }
+        }
+        return res;
+    } //Трудоемкость = O(V!), V - количество вершин
 
 
     /**
