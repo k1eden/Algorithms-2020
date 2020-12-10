@@ -98,7 +98,8 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      */
     static public String longestCommonSubstring(String firs, String second) {
-        //Трудоемкость: O(n^2)
+        //Трудоемкость: O(n^2) + Ресурсоемкость: O(n^2)
+
 
         int[][] FSLength = new int[firs.length() + 1][second.length() + 1];
         int max = Integer.MIN_VALUE;

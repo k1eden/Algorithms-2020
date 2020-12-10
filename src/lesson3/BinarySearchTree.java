@@ -146,7 +146,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
        size--;
 
         return true;
-    } //Трудоемкость: O(h), h - высота дерева
+    } //Трудоемкость: O(h), h - высота дерева +  Ресурсоемкость: O(1)
 
     @Nullable
     @Override
@@ -215,7 +215,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
             list.removeFirst();
             addToList(currentNode.right);
             return currentNode.value;
-        } //Трудоемкость: O(1) O(1) O(h)
+        } //Трудоемкость: O(h) +  Ресурсоемкость: O(h)
 
         /**
          * Удаление предыдущего элемента
