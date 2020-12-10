@@ -161,6 +161,13 @@ abstract class AbstractBinarySearchTreeTest {
                 )
             }
             println("All clear!")
+
+            val binaryS = create()
+            binaryS.add(2)
+            binaryS.add(3)
+            assertFalse(binaryS.remove(977))
+            assertEquals(2, binaryS.size)
+            assertTrue(binaryS.remove(2))
         }
     }
 
@@ -208,7 +215,7 @@ abstract class AbstractBinarySearchTreeTest {
 
         val binarySet = create();
         val emptyIterator = binarySet.iterator()
-        assertFalse(emptyIterator.hasNext())                                 // пустое дерево
+        assertFalse(emptyIterator.hasNext())
         val list = mutableListOf<Int>()
         list.add(2)
         list.add(7)
@@ -220,7 +227,7 @@ abstract class AbstractBinarySearchTreeTest {
         val iterator = binarySet.iterator()
         for (element in 1 until binarySet.size)
             iterator.next()
-        assertTrue(iterator.hasNext())                                       // просто проходка
+        assertTrue(iterator.hasNext())
 
     }
 
