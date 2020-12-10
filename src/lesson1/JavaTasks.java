@@ -106,23 +106,38 @@ public class JavaTasks {
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputName));
-        List<Double> listOfTemp = new ArrayList<>();
-        Scanner scan = new Scanner(new File(inputName));
-
-        while (reader.readLine() != null) {
-            double temp = Double.parseDouble(scan.next());
-
-            if (temp > 500.0 || temp < -273.0) throw new IllegalArgumentException();
-            listOfTemp.add(temp);
-        }
-
-        Collections.sort(listOfTemp);
+        double leftB = -273.0 * 10;
+        double rightB = 500.0 * 10;
+        int tempN = (int) rightB - (int) leftB + 1;
+        int[] temp = new int[tempN];
+        Scanner scan = new Scanner(new InputStreamReader(new FileInputStream(inputName)));
 
         try (FileWriter writer = new FileWriter(outputName)) {
-            for (Double temp : listOfTemp) writer.write(temp.toString() + "\n");
+        while (reader.readLine() != null) {
+            String line = scan.nextLine().trim();
+
+            line = line.replaceAll("[.]", "");
+            temp[Integer.parseInt(line) - (int) leftB]++;
         }
-        //Трудоемкость: O(n(log(n)))
-    }
+
+        for (int i = 0; i < tempN; i++) {
+            String x = Integer.toString(i + (int) leftB);
+
+            for (int j = 0; j < temp[i]; j++) {
+                if (x.length() == 2 && i + leftB < 0)
+                    x = x.charAt(0) + "0" + x.charAt(1);
+
+                if (x.length() == 1 && i + leftB >= 0)
+                    x = "0" + x.charAt(0);
+
+                String part1 = x.substring(0, x.length() - 1);
+                char part2 = x.charAt(x.length() - 1);
+
+                writer.write(part1 + "." + part2 + "\n");
+            }
+        }
+        }
+    } //Трудоемкость: O(n)
 
     /**
      * Сортировка последовательности

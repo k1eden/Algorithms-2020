@@ -98,26 +98,29 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      */
     static public String longestCommonSubstring(String firs, String second) {
-        //Трудоемкость: O(n^3)
+        //Трудоемкость: O(n^2)
 
+        int[][] FSLength = new int[firs.length() + 1][second.length() + 1];
         int max = Integer.MIN_VALUE;
-        String string = "";
+        int pos = 0;
 
-        for (int i = 0; i < firs.length() - 1; i++) {
-            int next = i + 1;
-            while (second.contains(firs.substring(i, next))) {
-                if (firs.length() - 1 >= next && second.length() - 1 >= next)
-                    next++;
-                 else break;
+        for (int i = 1; i < firs.length(); i++)
+            for (int j = 1; j < second.length(); j++) {
+                if (firs.charAt(i - 1) == second.charAt(j - 1))
+                    FSLength[i][j] = FSLength[i - 1][j - 1] + 1;
+
+                if (FSLength[i][j] > max) {
+                    max = FSLength[i][j];
+                    pos = i;
+                }
             }
 
-            String string1 = firs.substring(i, next - 1);
-            if (string1.length() > max) {
-                max = string1.length();
-                string = firs.substring(i, next - 1);
-            }
-        }
-        return string;
+        StringBuilder res = new StringBuilder();
+
+        for (int i = max; i > 0; i--)
+            res.append(firs.charAt(pos - i));
+
+        return res.toString();
     }
 
     /**
